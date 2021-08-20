@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +17,11 @@ public class Controller : MonoBehaviour
     public Dictionary<string,bool> Inventory = new Dictionary<string,bool>();
 
     public Rigidbody2D player;
+
+    private Vector2 _lastMove;
     
+    //ABILITIES
+    private Dash dash;
 
    /*public static Controller getPlayerInstance(){
         if(!playerController){
@@ -33,7 +39,8 @@ public class Controller : MonoBehaviour
         //GameObject.Find("Image").GetComponent<Rigidbody2D>()
         player = GetComponent<Rigidbody2D>();
         Inputs = new InputMaster();
-        
+        _lastMove = new Vector2(1,0);
+        dash = new Dash("DASH", 5, player);
 
     }
     void Start()
@@ -47,7 +54,17 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        player.MovePosition(player.position + Arrows() * 2f* Time.deltaTime);   
+        player.MovePosition(player.position + Arrows() * 2f* Time.deltaTime);
+        this._lastMove = (Arrows()!=Vector2.zero?Arrows():this._lastMove);
+        if (Input.GetKey("space"))
+        {
+            if (dash.Active)
+            {
+                dash.dashForward(this._lastMove);
+                StartCoroutine(dash.CooldownAbility());
+            }
+        }
+        
         foreach(Collider2D obj in Physics2D.OverlapCircleAll(transform.position, InventoryRadius, 1<<5)){
             if(!Inventory.ContainsKey(obj.name)){
             Inventory.Add(obj.name,true);
