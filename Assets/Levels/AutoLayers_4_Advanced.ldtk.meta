@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 74cca03fd7f56be43ba3dbb9c1a30b00
+guid: eaddc3756ce7f9447ac58b633d55c91e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -8,7 +8,7 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: aaa16bfc62c086f4fb45da87b6acf9b1, type: 3}
-  _jsonFile: {fileID: -164016180542632921, guid: 74cca03fd7f56be43ba3dbb9c1a30b00, type: 3}
+  _jsonFile: {fileID: -164016180542632921, guid: eaddc3756ce7f9447ac58b633d55c91e, type: 3}
   _pixelsPerUnit: 16
   _atlas: {instanceID: 0}
   _customLevelPrefab: {instanceID: 0}
@@ -16,9 +16,13 @@ ScriptedImporter:
   _intGridValueColorsVisible: 0
   _useCompositeCollider: 1
   _intGridValues:
-  - _key: IntGrid_1
+  - _key: IntGrid_layer_1
     _asset: {fileID: 11400000, guid: 4ca28baea88c01f4ea8564b9d1895ae0, type: 2}
-  - _key: IntGrid_2
+  - _key: IntGrid_layer_2
+    _asset: {instanceID: 0}
+  - _key: IntGrid_layer_3
+    _asset: {instanceID: 0}
+  - _key: IntGrid_layer_4
     _asset: {instanceID: 0}
   _entities: []
   _enumGenerate: 0

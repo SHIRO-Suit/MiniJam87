@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+namespace DefaultNamespace
+{
 public class Controller : MonoBehaviour
 {
     
@@ -13,6 +14,10 @@ public class Controller : MonoBehaviour
     public static Controller playerController;
     [SerializeField]
     public Dictionary<string,bool> Inventory = new Dictionary<string,bool>();
+     private Vector2 _lastMove;
+    
+    //ABILITIES
+    private Dash dash;
 
     public Rigidbody2D player;
     
@@ -33,6 +38,8 @@ public class Controller : MonoBehaviour
         //GameObject.Find("Image").GetComponent<Rigidbody2D>()
         player = GetComponent<Rigidbody2D>();
         Inputs = new InputMaster();
+        _lastMove = new Vector2(1,0);
+        dash = new Dash("DASH", 5, player);
         
 
     }
@@ -47,20 +54,47 @@ public class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        player.MovePosition(player.position + Arrows() * 2f* Time.deltaTime);   
-        foreach(Collider2D obj in Physics2D.OverlapCircleAll(transform.position, InventoryRadius, 1<<5)){
+        
+
+        foreach(Collider2D obj in Physics2D.OverlapCircleAll(transform.position, InventoryRadius, 1<<3)){
+            
+            
             if(!Inventory.ContainsKey(obj.name)){
-            Inventory.Add(obj.name,true);
+                obj.gameObject.SetActive(false);
+                Inventory.Add(obj.name,true);
             }else{
+                if(!Inventory[obj.name]) obj.gameObject.SetActive(false);
                 Inventory[obj.name] = true;
             }
+            
 
         }
+
+        DisplayInv();
+
+        
+
+
+    }
+    void FixedUpdate(){
+        player.MovePosition( player.position +Arrows()*10 * Time.fixedDeltaTime); 
+        this._lastMove = (Arrows()!=Vector2.zero?Arrows():this._lastMove);
+        if (Input.GetKey("space"))
+        {
+            if (dash.Active)
+            {
+                dash.dashForward(this._lastMove);
+                StartCoroutine(dash.CooldownAbility());
+            }
+        }
+        
+    }
+
+
+    void DisplayInv(){
         foreach(KeyValuePair<string, bool> item in Inventory){
             Debug.Log(item.Key +" : "+item.Value);
         }
-
-
     }
 
 
@@ -73,4 +107,5 @@ public class Controller : MonoBehaviour
     void OnDisable(){
         Inputs.Disable();
     }
+}
 }
