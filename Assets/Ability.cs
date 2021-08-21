@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public abstract class Ability<T, TP> : MonoBehaviour
+    public abstract class Ability<T, TP> 
 
     {
     private string abilityName;
@@ -18,7 +18,6 @@ namespace DefaultNamespace
         this.abilityName = name;
         this.cooldown = cooldown;
         this.player = player;
-        this.active = true;
     }
 
     public virtual IEnumerator CooldownAbility()
@@ -29,24 +28,25 @@ namespace DefaultNamespace
         ActivateAbility();
         
     }
+
     
 
     void DeactivateAbility()
     {
-        Debug.Log(name + " DEACTIVATED");
+        Debug.Log(abilityName + " DEACTIVATED");
         this.active = false;
     }
 
     void ActivateAbility()
     {
-        Debug.Log(name + " ACTIVATED");
+        Debug.Log(abilityName + " ACTIVATED");
         this.active = true;
     }
 
-    public string Name
+    public string AbilityName
     {
-        get => name;
-        set => name = value;
+        get => abilityName;
+        set => abilityName = value;
     }
 
     public T Effect

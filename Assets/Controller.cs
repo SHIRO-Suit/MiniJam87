@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 namespace DefaultNamespace
 {
@@ -21,6 +22,8 @@ public class Controller : MonoBehaviour
     private ColoredPillUse coloredPillUse;
 
     public Rigidbody2D player;
+    public Tilemap collisionTilemap;
+     
     
     
 
@@ -34,6 +37,7 @@ public class Controller : MonoBehaviour
 
     // Start is called before the first frame update
     void Awake(){
+        collisionTilemap = GameObject.FindGameObjectWithTag("Collisions").GetComponent<Tilemap>();
         Inventory.Add("BluePill",false);
         Inventory.Add("BlackPill",false);
         Inventory.Add("RedPill",false);
@@ -43,7 +47,7 @@ public class Controller : MonoBehaviour
         Inputs = new InputMaster();
         _lastMove = new Vector2(1,0);
         dash = new Dash("DASH", 5, player);
-        coloredPillUse = new ColoredPillUse("COLOREDPILLUSE",5,this);
+        coloredPillUse = new ColoredPillUse("COLOREDPILLUSE",5,this,false);
         
 
     }
@@ -89,18 +93,24 @@ public class Controller : MonoBehaviour
             if(CheckInventory("RedPill")){
                 Use("RedPill");
                 // lance fonction Ability
+                coloredPillUse.Effect = "RedPill"; // set le tag des objets correspondants a desactiver.
+                StartCoroutine(coloredPillUse.CooldownAbility()); // execute la commande :
+                // desactive les murs et rends le joueur plus rapide, puis apres 5 sec, remets tout normal
             }
+            
         }
         if(Input.GetKey(KeyCode.Alpha2)){
              if(CheckInventory("BluePill")){
                 Use("BluePill");
-                // lance fonction Ability
+                coloredPillUse.Effect = "BluePill"; 
+                StartCoroutine(coloredPillUse.CooldownAbility());
             }
         }
         if(Input.GetKey(KeyCode.Alpha3)){
              if(CheckInventory("PurplePill")){
                 Use("PurplePill");
-                // lance fonction Ability
+                coloredPillUse.Effect = "PurplePill"; 
+                StartCoroutine(coloredPillUse.CooldownAbility());
             }
         }
         
@@ -116,6 +126,7 @@ public class Controller : MonoBehaviour
             return false;
         }
     }
+
 
     void DisplayInv(){
         foreach(KeyValuePair<string, bool> item in Inventory){
