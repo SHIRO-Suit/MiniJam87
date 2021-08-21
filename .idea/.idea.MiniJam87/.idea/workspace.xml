@@ -12,8 +12,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="mock://B:/Dev/JAM/MiniJam87/Assets/minijam.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DebugUtilities.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Controller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://B:/Dev/JAM/MiniJam87/Assets/minijam.unity" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://B:/Dev/JAM/MiniJam87/Assets/minijam.unity" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Ability.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectId" id="1x2NgpvplsPO07cW8Q5IefrQfVQ" />
   <component name="ProjectViewState">
