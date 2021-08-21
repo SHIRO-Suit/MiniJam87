@@ -8,7 +8,7 @@ namespace DefaultNamespace
 public class Controller : MonoBehaviour
 {
     
-    
+    public float speed = 10;
     public InputMaster Inputs; 
     public float InventoryRadius = 1f;
     public static Controller playerController;
@@ -18,8 +18,10 @@ public class Controller : MonoBehaviour
     
     //ABILITIES
     private Dash dash;
+    private ColoredPillUse coloredPillUse;
 
     public Rigidbody2D player;
+    
     
 
    /*public static Controller getPlayerInstance(){
@@ -32,32 +34,28 @@ public class Controller : MonoBehaviour
 
     // Start is called before the first frame update
     void Awake(){
-        Inventory.Add("Itefdgdfm1",false);
-        Inventory.Add("Itedfgm2",false);
-        Inventory.Add("Itdfgem3",false);
+        Inventory.Add("BluePill",false);
+        Inventory.Add("BlackPill",false);
+        Inventory.Add("RedPill",false);
+        Inventory.Add("PurplePill",false);
         //GameObject.Find("Image").GetComponent<Rigidbody2D>()
         player = GetComponent<Rigidbody2D>();
         Inputs = new InputMaster();
         _lastMove = new Vector2(1,0);
         dash = new Dash("DASH", 5, player);
+        coloredPillUse = new ColoredPillUse("COLOREDPILLUSE",5,this);
         
 
     }
-    void Start()
-    {
-        
-        //GetComponent<Rigidbody2D>();
-    }
+
     private void OnDrawGizmosSelected() {
         UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward,InventoryRadius);
     }
-    // Update is called once per frame
     void Update()
     {
         
 
         foreach(Collider2D obj in Physics2D.OverlapCircleAll(transform.position, InventoryRadius, 1<<3)){
-            
             
             if(!Inventory.ContainsKey(obj.name)){
                 obj.gameObject.SetActive(false);
@@ -70,14 +68,14 @@ public class Controller : MonoBehaviour
 
         }
 
-        DisplayInv();
+        //DisplayInv();
 
         
 
 
     }
     void FixedUpdate(){
-        player.MovePosition( player.position +Arrows()*10 * Time.fixedDeltaTime); 
+        player.MovePosition( player.position +Arrows()*speed * Time.fixedDeltaTime); 
         this._lastMove = (Arrows()!=Vector2.zero?Arrows():this._lastMove);
         if (Input.GetKey("space"))
         {
@@ -87,9 +85,37 @@ public class Controller : MonoBehaviour
                 StartCoroutine(dash.CooldownAbility());
             }
         }
+        if(Input.GetKey(KeyCode.Alpha1)){
+            if(CheckInventory("RedPill")){
+                Use("RedPill");
+                // lance fonction Ability
+            }
+        }
+        if(Input.GetKey(KeyCode.Alpha2)){
+             if(CheckInventory("BluePill")){
+                Use("BluePill");
+                // lance fonction Ability
+            }
+        }
+        if(Input.GetKey(KeyCode.Alpha3)){
+             if(CheckInventory("PurplePill")){
+                Use("PurplePill");
+                // lance fonction Ability
+            }
+        }
         
     }
+    void Use(string name){
+        Inventory[name] = false;
+    }
 
+    bool CheckInventory(string name){
+        if(Inventory.ContainsKey(name)){ 
+            return Inventory[name];
+        }else{
+            return false;
+        }
+    }
 
     void DisplayInv(){
         foreach(KeyValuePair<string, bool> item in Inventory){

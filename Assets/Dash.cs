@@ -9,6 +9,7 @@ namespace DefaultNamespace
         public Dash(string name, float cooldown, Rigidbody2D player) : base(name, cooldown, player)
         {
         }
+        
 
         public void dashForward(Vector2 lastMove)
         {

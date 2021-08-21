@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public abstract class Ability<T, TP>
+    public abstract class Ability<T, TP> : MonoBehaviour
 
     {
-    private string name;
+    private string abilityName;
     private T effect;
     private float cooldown;
     private bool active;
@@ -15,19 +15,21 @@ namespace DefaultNamespace
 
     public Ability(string name, float cooldown, TP player)
     {
-        this.name = name;
+        this.abilityName = name;
         this.cooldown = cooldown;
         this.player = player;
         this.active = true;
     }
 
-    public IEnumerator CooldownAbility()
+    public virtual IEnumerator CooldownAbility()
     {
         Debug.Log("COOLING DOWN");
         DeactivateAbility();
         yield return new WaitForSeconds(cooldown);
         ActivateAbility();
+        
     }
+    
 
     void DeactivateAbility()
     {
