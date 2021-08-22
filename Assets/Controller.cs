@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,9 +26,12 @@ public class Controller : MonoBehaviour
     public Tilemap DestructCollTilemap, DestructGraphicTilemap; // Affichage et collisions du tilemap Des objets destructibles
      
     
+    //SPAWN
+    private Vector2 spawnPoint;
     
 
-   /*public static Controller getPlayerInstance(){
+
+    /*public static Controller getPlayerInstance(){
         if(!playerController){
             
         }
@@ -48,7 +52,20 @@ public class Controller : MonoBehaviour
         _lastMove = new Vector2(1,0);
         dash = new Dash("DASH", 5, player);
         coloredPillUse = new ColoredPillUse("COLOREDPILLUSE",5,this,false);
-        
+        sequenceIndex = 0;
+        sequence = new KeyCode[]{
+            KeyCode.UpArrow, 
+            KeyCode.UpArrow, 
+            KeyCode.DownArrow,
+            KeyCode.DownArrow,
+            KeyCode.LeftArrow,
+            KeyCode.RightArrow,
+            KeyCode.LeftArrow,
+            KeyCode.RightArrow,
+            KeyCode.B,
+            KeyCode.A,
+            KeyCode.Return
+        };
 
     }
     void Start(){
@@ -65,9 +82,7 @@ public class Controller : MonoBehaviour
     void Update()
     {
         
-
         foreach(Collider2D obj in Physics2D.OverlapCircleAll(transform.position, InventoryRadius, 1<<3)){
-            
             if(!Inventory.ContainsKey(obj.name)){
                 obj.gameObject.SetActive(false);
                 Inventory.Add(obj.name,true);
@@ -75,14 +90,23 @@ public class Controller : MonoBehaviour
                 if(!Inventory[obj.name]) obj.gameObject.SetActive(false);
                 Inventory[obj.name] = true;
             }
-            
-
         }
 
         //DisplayInv();
 
-        
-
+        print(sequenceIndex);
+        print(Input.GetKeyDown(sequence[sequenceIndex]));
+        if (Input.GetKeyDown(sequence[sequenceIndex]))
+        {
+            sequenceIndex++;
+            if (sequenceIndex == sequence.Length){
+                sequenceIndex = 0;
+                print("KONAMI CODE TYPED");
+            }
+        } else if (Input.anyKeyDown)
+        { 
+            sequenceIndex = 0;
+        }
 
     }
     private void OnCollisionStay2D(Collision2D other) {
@@ -124,16 +148,16 @@ public class Controller : MonoBehaviour
                 Use("BluePill");
                 coloredPillUse.Effect = "BluePill"; 
                 StartCoroutine(coloredPillUse.CooldownAbility());
-            }
+             }
         }
         if(Input.GetKey(KeyCode.Alpha3)){
              if(CheckInventory("PurplePill")){
                 Use("PurplePill");
                 coloredPillUse.Effect = "PurplePill"; 
                 StartCoroutine(coloredPillUse.CooldownAbility());
-            }
+             }
         }
-        
+
     }
     void Use(string name){
         Inventory[name] = false;
@@ -153,6 +177,14 @@ public class Controller : MonoBehaviour
             Debug.Log(item.Key +" : "+item.Value);
         }
     }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("DeathCollision"))
+        {
+            player.position += new Vector2(-1,-1);
+        }
+    }
 
 
     public Vector2 Arrows(){
@@ -170,5 +202,15 @@ public class Controller : MonoBehaviour
         get => dash;
         set => dash = value;
     }
+
+    public Vector2 SpawnPoint
+    {
+        get => spawnPoint;
+        set => spawnPoint = value;
+    }
+    
+    //KONAMI CODE
+    private KeyCode[] sequence;
+    private int sequenceIndex;
 }
 }
