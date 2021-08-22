@@ -1,0 +1,44 @@
+fileFormatVersion: 2
+guid: f5d0cb15ca2b6ef48bf15fbb26ed62c6
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: aaa16bfc62c086f4fb45da87b6acf9b1, type: 3}
+  _jsonFile: {fileID: -164016180542632921, guid: f5d0cb15ca2b6ef48bf15fbb26ed62c6, type: 3}
+  _pixelsPerUnit: 16
+  _atlas: {instanceID: 0}
+  _customLevelPrefab: {instanceID: 0}
+  _deparentInRuntime: 0
+  _intGridValueColorsVisible: 0
+  _useCompositeCollider: 1
+  _intGridValues:
+  - _key: IntGrid_break_1
+    _asset: {fileID: 11400000, guid: f3c82911a436b2e4a8d7dfd9cdcf0d76, type: 2}
+  - _key: IntGrid_Spike_1
+    _asset: {instanceID: 0}
+  - _key: IntGrid_pilule_Rouge_1
+    _asset: {fileID: 11400000, guid: 4ca28baea88c01f4ea8564b9d1895ae0, type: 2}
+  - _key: IntGrid_pilule_Magenta_1
+    _asset: {fileID: 11400000, guid: 4ca28baea88c01f4ea8564b9d1895ae0, type: 2}
+  - _key: IntGrid_pilule_Bleu_1
+    _asset: {fileID: 11400000, guid: 4ca28baea88c01f4ea8564b9d1895ae0, type: 2}
+  - _key: IntGrid_1
+    _asset: {fileID: 11400000, guid: 4ca28baea88c01f4ea8564b9d1895ae0, type: 2}
+  - _key: IntGrid_2
+    _asset: {fileID: 11400000, guid: 4ca28baea88c01f4ea8564b9d1895ae0, type: 2}
+  _entities:
+  - _key: PiluleMagenta
+    _asset: {instanceID: 0}
+  - _key: PiluleRouge
+    _asset: {instanceID: 0}
+  - _key: PiluleBleu
+    _asset: {instanceID: 0}
+  - _key: Respawn
+    _asset: {instanceID: 0}
+  _enumGenerate: 0
+  _enumPath: 
+  _enumNamespace: 

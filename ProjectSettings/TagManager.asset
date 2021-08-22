@@ -6,6 +6,8 @@ TagManager:
   tags:
   - RedPill
   - Collisions
+  - BluePill
+  - MagentaPill
   - DeathCollision
   layers:
   - Default

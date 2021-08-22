@@ -26,7 +26,7 @@ namespace DefaultNamespace
             //Debug.Log(playerController.collisionTilemap.GetTile(playerController.collisionTilemap.WorldToCell(Player.position)+Vector3Int.right));
             
             Debug.Log("DASHING");
-            this.Player.MovePosition(Player.position + lastMove * 4 );
+            this.Player.MovePosition(Player.position + lastMove * 2 );
 
         }
         public IEnumerator isDashingDeactivator(){

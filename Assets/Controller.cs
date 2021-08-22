@@ -26,9 +26,7 @@ public class Controller : MonoBehaviour
     public Tilemap DestructCollTilemap, DestructGraphicTilemap; // Affichage et collisions du tilemap Des objets destructibles
      
     
-    //SPAWN
     private Vector2 spawnPoint;
-    
 
 
     /*public static Controller getPlayerInstance(){
@@ -50,7 +48,7 @@ public class Controller : MonoBehaviour
         player = GetComponent<Rigidbody2D>();
         Inputs = new InputMaster();
         _lastMove = new Vector2(1,0);
-        dash = new Dash("DASH", 5, player);
+        dash = new Dash("DASH", 2, player);
         coloredPillUse = new ColoredPillUse("COLOREDPILLUSE",5,this,false);
         sequenceIndex = 0;
         sequence = new KeyCode[]{
@@ -69,19 +67,21 @@ public class Controller : MonoBehaviour
 
     }
     void Start(){
-        DestructGraphicTilemap = GameObject.Find("DisplayTiles").GetComponent<Tilemap>();
-        DestructCollTilemap = GameObject.Find("CollideTiles").GetComponent<Tilemap>();
+      //  DestructGraphicTilemap = GameObject.Find("DisplayTiles").GetComponent<Tilemap>();
+       // DestructCollTilemap = GameObject.Find("CollideTiles").GetComponent<Tilemap>();
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected() {
         UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward,InventoryRadius);
     }
 
-
+#endif
 
     void Update()
     {
         
+
         foreach(Collider2D obj in Physics2D.OverlapCircleAll(transform.position, InventoryRadius, 1<<3)){
             if(!Inventory.ContainsKey(obj.name)){
                 obj.gameObject.SetActive(false);
@@ -111,12 +111,25 @@ public class Controller : MonoBehaviour
     }
     private void OnCollisionStay2D(Collision2D other) {
         
-     
         if(dash.isDashing){
             Vector2 position =other.contacts[0].point - other.contacts[0].normal * 0.1f;
-            Debug.DrawRay(other.contacts[0].point, other.contacts[0].normal,Color.red,3);
-            DestructCollTilemap.SetTile(DestructCollTilemap.WorldToCell(position),null);
-            DestructGraphicTilemap.SetTile(DestructGraphicTilemap.WorldToCell(position), null);
+            // Debug.DrawRay(other.contacts[0].point, other.contacts[0].normal,Color.red,3);
+            Tilemap CurrentCollider = other.gameObject.GetComponent<Tilemap>();
+            if(CurrentCollider){
+                if(CurrentCollider.GetTile(CurrentCollider.WorldToCell(position)).name == "BreakableTile"){
+                    CurrentCollider.SetTile(CurrentCollider.WorldToCell(position), null);
+                    CurrentCollider.RefreshAllTiles();
+                    
+                    CurrentCollider.transform.parent.GetChild(0).GetComponent<Tilemap>().SetTile(CurrentCollider.WorldToCell(position),null);
+                    Debug.Log("Breaking bad");
+                }
+
+            
+
+
+            }
+           // DestructCollTilemap.SetTile(DestructCollTilemap.WorldToCell(position),null);
+            //DestructGraphicTilemap.SetTile(DestructGraphicTilemap.WorldToCell(position), null);
         }
         
     }
@@ -151,9 +164,9 @@ public class Controller : MonoBehaviour
              }
         }
         if(Input.GetKey(KeyCode.Alpha3)){
-             if(CheckInventory("PurplePill")){
-                Use("PurplePill");
-                coloredPillUse.Effect = "PurplePill"; 
+             if(CheckInventory("MagentaPill")){
+                Use("MagentaPill");
+                coloredPillUse.Effect = "MagentaPill"; 
                 StartCoroutine(coloredPillUse.CooldownAbility());
              }
         }
