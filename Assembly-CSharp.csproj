@@ -49,12 +49,12 @@
      <Compile Include="Assets\inventory.cs" />
      <Compile Include="Assets\Ability.cs" />
      <Compile Include="Assets\Hierarchy 2\Runtime\HierarchyFolder.cs" />
+     <Compile Include="Assets\DebugUtilities.cs" />
      <Compile Include="Assets\Dash.cs" />
      <Compile Include="Assets\Hierarchy 2\Runtime\HierarchyLocalData.cs" />
      <Compile Include="Assets\Hierarchy 2\Runtime\CustomRowItem.cs" />
      <Compile Include="Assets\Hierarchy 2\Runtime\UIElements.cs" />
      <Compile Include="Assets\ddd.cs" />
-     <Compile Include="Assets\DebugUtilities.cs" />
      <Reference Include="UnityEngine">
      <HintPath>B:/Games/Unity/editor/2021.1.17f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
      </Reference>

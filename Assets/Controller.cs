@@ -144,5 +144,11 @@ public class Controller : MonoBehaviour
     void OnDisable(){
         Inputs.Disable();
     }
+
+    public Dash Dash
+    {
+        get => dash;
+        set => dash = value;
+    }
 }
 }
