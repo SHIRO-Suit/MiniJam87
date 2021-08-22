@@ -22,7 +22,7 @@ public class Controller : MonoBehaviour
     private ColoredPillUse coloredPillUse;
 
     public Rigidbody2D player;
-    public Tilemap collisionTilemap;
+    public Tilemap DestructCollTilemap, DestructGraphicTilemap; // Affichage et collisions du tilemap Des objets destructibles
      
     
     
@@ -37,7 +37,7 @@ public class Controller : MonoBehaviour
 
     // Start is called before the first frame update
     void Awake(){
-        collisionTilemap = GameObject.FindGameObjectWithTag("Collisions").GetComponent<Tilemap>();
+        
         Inventory.Add("BluePill",false);
         Inventory.Add("BlackPill",false);
         Inventory.Add("RedPill",false);
@@ -51,10 +51,17 @@ public class Controller : MonoBehaviour
         
 
     }
+    void Start(){
+        DestructGraphicTilemap = GameObject.Find("DisplayTiles").GetComponent<Tilemap>();
+        DestructCollTilemap = GameObject.Find("CollideTiles").GetComponent<Tilemap>();
+    }
 
     private void OnDrawGizmosSelected() {
         UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward,InventoryRadius);
     }
+
+
+
     void Update()
     {
         
@@ -78,6 +85,17 @@ public class Controller : MonoBehaviour
 
 
     }
+    private void OnCollisionStay2D(Collision2D other) {
+        
+     
+        if(dash.isDashing){
+            Vector2 position =other.contacts[0].point - other.contacts[0].normal * 0.1f;
+            Debug.DrawRay(other.contacts[0].point, other.contacts[0].normal,Color.red,3);
+            DestructCollTilemap.SetTile(DestructCollTilemap.WorldToCell(position),null);
+            DestructGraphicTilemap.SetTile(DestructGraphicTilemap.WorldToCell(position), null);
+        }
+        
+    }
     void FixedUpdate(){
         player.MovePosition( player.position +Arrows()*speed * Time.fixedDeltaTime); 
         this._lastMove = (Arrows()!=Vector2.zero?Arrows():this._lastMove);
@@ -86,7 +104,9 @@ public class Controller : MonoBehaviour
             if (dash.Active)
             {
                 dash.dashForward(this._lastMove);
+                StartCoroutine(dash.isDashingDeactivator());
                 StartCoroutine(dash.CooldownAbility());
+                
             }
         }
         if(Input.GetKey(KeyCode.Alpha1)){
